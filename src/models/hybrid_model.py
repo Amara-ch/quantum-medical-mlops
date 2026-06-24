@@ -13,7 +13,7 @@ from src.models.quantum_layer import build_quantum_layer, N_QUBITS
 class HybridModel(nn.Module):
     """
     Architecture:
-      Image -> ResNet18 (feature extractor) -> Linear -> Quantum Layer -> Linear -> Output
+      Image -> ResNet18 (feature extractor) -> Linear -> Quantum Layer -> Classifier -> Output
     """
 
     def __init__(self, n_classes: int = 2, n_quantum_layers: int = 2):
@@ -33,8 +33,12 @@ class HybridModel(nn.Module):
         # 2) Quantum part: our quantum layer
         self.quantum = build_quantum_layer(n_layers=n_quantum_layers)
 
-        # 3) Final classifier: takes quantum output -> class scores
-        self.classifier = nn.Linear(N_QUBITS, n_classes)
+        # 3) Final classifier: small network for more learning power
+        self.classifier = nn.Sequential(
+            nn.Linear(N_QUBITS, 16),
+            nn.ReLU(),
+            nn.Linear(16, n_classes),
+        )
 
     def forward(self, x):
         # Pass image through CNN -> get N_QUBITS features
