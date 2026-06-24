@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data (large files - not for git)
+data/raw/
+data/processed/
+archive.zip
+*.zip
