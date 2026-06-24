@@ -1,0 +1,13 @@
+torch
+torchvision
+pennylane
+numpy
+scikit-learn
+matplotlib
+mlflow
+fastapi
+uvicorn
+python-multipart
+pillow
+dvc
+pytest
